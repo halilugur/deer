@@ -1,0 +1,115 @@
+{
+  "title": "3D Spiral Trajectory Algorithm Example",
+  "nodes": [
+    {
+      "id": "node_start",
+      "node_type": "Start",
+      "x": 300.0,
+      "y": 60.0,
+      "width": 100.0,
+      "height": 40.0,
+      "title": "Başla",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_init",
+      "node_type": "Definition",
+      "x": 270.0,
+      "y": 140.0,
+      "width": 160.0,
+      "height": 40.0,
+      "title": "Başlangıç",
+      "expr1": "t = 0, n = 50, x = 0, y = 0, z = 0",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_cond",
+      "node_type": "IfLess",
+      "x": 270.0,
+      "y": 220.0,
+      "width": 160.0,
+      "height": 60.0,
+      "title": "t < n",
+      "expr1": "t",
+      "expr2": "n",
+      "target_var": ""
+    },
+    {
+      "id": "node_calc",
+      "node_type": "Definition",
+      "x": 250.0,
+      "y": 320.0,
+      "width": 200.0,
+      "height": 40.0,
+      "title": "3D Nokta Hesapla",
+      "expr1": "x = t * cos(t * 0.2), y = t * sin(t * 0.2), z = t, t = t + 1",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_out",
+      "node_type": "Output",
+      "x": 280.0,
+      "y": 400.0,
+      "width": 140.0,
+      "height": 40.0,
+      "title": "Çıktı",
+      "expr1": "z",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_stop",
+      "node_type": "Stop",
+      "x": 500.0,
+      "y": 230.0,
+      "width": 100.0,
+      "height": 40.0,
+      "title": "Dur",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    }
+  ],
+  "connectors": [
+    {
+      "id": "c1",
+      "from_id": "node_start",
+      "to_id": "node_init",
+      "condition": "Default"
+    },
+    {
+      "id": "c2",
+      "from_id": "node_init",
+      "to_id": "node_cond",
+      "condition": "Default"
+    },
+    {
+      "id": "c3",
+      "from_id": "node_cond",
+      "to_id": "node_calc",
+      "condition": "Yes"
+    },
+    {
+      "id": "c4",
+      "from_id": "node_calc",
+      "to_id": "node_out",
+      "condition": "Default"
+    },
+    {
+      "id": "c5",
+      "from_id": "node_out",
+      "to_id": "node_cond",
+      "condition": "Default"
+    },
+    {
+      "id": "c6",
+      "from_id": "node_cond",
+      "to_id": "node_stop",
+      "condition": "No"
+    }
+  ]
+}

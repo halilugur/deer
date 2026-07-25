@@ -1,0 +1,169 @@
+{
+  "title": "Faktöriyel Hesabı",
+  "nodes": [
+    {
+      "id": "id1",
+      "node_type": "Start",
+      "x": 283.0,
+      "y": 50.0,
+      "width": 90.0,
+      "height": 36.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "START",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "id2",
+      "node_type": "Input",
+      "x": 258.0,
+      "y": 120.0,
+      "width": 140.0,
+      "height": 42.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "INPUT",
+      "expr1": "Sayıyı girin:",
+      "expr2": "num",
+      "target_var": ""
+    },
+    {
+      "id": "id3",
+      "node_type": "Definition",
+      "x": 263.0,
+      "y": 200.0,
+      "width": 130.0,
+      "height": 42.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "DEFINITION",
+      "expr1": "sum",
+      "expr2": "1",
+      "target_var": ""
+    },
+    {
+      "id": "id4",
+      "node_type": "IfGreater",
+      "x": 273.0,
+      "y": 280.0,
+      "width": 110.0,
+      "height": 80.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "IF_GREATER",
+      "expr1": "num",
+      "expr2": "0",
+      "target_var": ""
+    },
+    {
+      "id": "id5",
+      "node_type": "Multiply",
+      "x": 450.0,
+      "y": 300.0,
+      "width": 130.0,
+      "height": 42.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "MULTIPLY",
+      "expr1": "sum",
+      "expr2": "num",
+      "target_var": "sum"
+    },
+    {
+      "id": "id6",
+      "node_type": "Subtract",
+      "x": 450.0,
+      "y": 370.0,
+      "width": 130.0,
+      "height": 42.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "SUBTRACT",
+      "expr1": "num",
+      "expr2": "1",
+      "target_var": "num"
+    },
+    {
+      "id": "id7",
+      "node_type": "Output",
+      "x": 258.0,
+      "y": 420.0,
+      "width": 140.0,
+      "height": 42.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "OUTPUT",
+      "expr1": "Sonuç: ",
+      "expr2": "sum",
+      "target_var": ""
+    },
+    {
+      "id": "id8",
+      "node_type": "Stop",
+      "x": 283.0,
+      "y": 500.0,
+      "width": 90.0,
+      "height": 36.0,
+      "fill_color": [255, 255, 255],
+      "border_color": [40, 40, 40],
+      "label": "STOP",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    }
+  ],
+  "connectors": [
+    {
+      "id": "line1",
+      "from_id": "id1",
+      "to_id": "id2",
+      "condition": "Default"
+    },
+    {
+      "id": "line2",
+      "from_id": "id2",
+      "to_id": "id3",
+      "condition": "Default"
+    },
+    {
+      "id": "line3",
+      "from_id": "id3",
+      "to_id": "id4",
+      "condition": "Default"
+    },
+    {
+      "id": "line4",
+      "from_id": "id4",
+      "to_id": "id5",
+      "condition": "Yes"
+    },
+    {
+      "id": "line5",
+      "from_id": "id5",
+      "to_id": "id6",
+      "condition": "Default"
+    },
+    {
+      "id": "line6",
+      "from_id": "id6",
+      "to_id": "id4",
+      "condition": "Default"
+    },
+    {
+      "id": "line7",
+      "from_id": "id4",
+      "to_id": "id7",
+      "condition": "No"
+    },
+    {
+      "id": "line8",
+      "from_id": "id7",
+      "to_id": "id8",
+      "condition": "Default"
+    }
+  ],
+  "next_node_id": 9,
+  "next_line_id": 9
+}

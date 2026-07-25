@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1C2026"/>
+      <stop offset="100%" stop-color="#0F1216"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <!-- Squircle Outer Container -->
+  <rect width="256" height="256" rx="56" fill="url(#bg)" stroke="#262D38" stroke-width="4"/>
+  <!-- Antlers as Connected Flowchart Paths -->
+  <path d="M 68 60 L 98 104 L 98 140 L 128 178 L 158 140 L 158 104 L 188 60" fill="none" stroke="url(#tealGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 98 104 L 56 104 L 40 76" fill="none" stroke="url(#tealGrad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 158 104 L 200 104 L 216 76" fill="none" stroke="url(#tealGrad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Geometric Face Node Polygon -->
+  <polygon points="128,124 158,154 128,198 98,154" fill="#2DD4BF" opacity="0.18" stroke="#2DD4BF" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Flowchart Terminal Node Dots -->
+  <circle cx="68" cy="60" r="8" fill="#2DD4BF"/>
+  <circle cx="188" cy="60" r="8" fill="#2DD4BF"/>
+  <circle cx="40" cy="76" r="7" fill="#3B82F6"/>
+  <circle cx="216" cy="76" r="7" fill="#3B82F6"/>
+  <circle cx="128" cy="198" r="8" fill="#2DD4BF"/>
+</svg>

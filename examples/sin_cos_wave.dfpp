@@ -1,0 +1,205 @@
+{
+  "title": "Sine and Cosine Wave Generator (sin(x) & cos(x))",
+  "nodes": [
+    {
+      "id": "node_start",
+      "node_type": "Start",
+      "x": 190.0,
+      "y": -20.0,
+      "width": 100.0,
+      "height": 40.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_init",
+      "node_type": "Definition",
+      "x": 84.5,
+      "y": 118.3418,
+      "width": 311.0,
+      "height": 43.316406,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "",
+      "expr1": "x = 0, step = 0.2, max_x = 31.4, sinx = 0, cosx = 0",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_cond",
+      "node_type": "IfLess",
+      "x": 160.0,
+      "y": 230.0,
+      "width": 160.0,
+      "height": 60.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "",
+      "expr1": "x",
+      "expr2": "max_x",
+      "target_var": ""
+    },
+    {
+      "id": "node_calc",
+      "node_type": "Definition",
+      "x": 130.0,
+      "y": 380.0,
+      "width": 220.0,
+      "height": 40.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "",
+      "expr1": "sinx = sin(x), cosx = cos(x)",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_out",
+      "node_type": "Output",
+      "x": -150.0,
+      "y": 380.0,
+      "width": 180.0,
+      "height": 40.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "",
+      "expr1": "sinx",
+      "expr2": "cosx",
+      "target_var": ""
+    },
+    {
+      "id": "node_step",
+      "node_type": "Definition",
+      "x": -140.0,
+      "y": 240.0,
+      "width": 160.0,
+      "height": 40.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "",
+      "expr1": "x = x + step",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "node_stop",
+      "node_type": "Stop",
+      "x": 470.0,
+      "y": 240.0,
+      "width": 100.0,
+      "height": 40.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    }
+  ],
+  "connectors": [
+    {
+      "id": "c1",
+      "from_id": "node_start",
+      "to_id": "node_init",
+      "condition": "Default"
+    },
+    {
+      "id": "c2",
+      "from_id": "node_init",
+      "to_id": "node_cond",
+      "condition": "Default"
+    },
+    {
+      "id": "c3",
+      "from_id": "node_cond",
+      "to_id": "node_calc",
+      "condition": "Yes"
+    },
+    {
+      "id": "c4",
+      "from_id": "node_calc",
+      "to_id": "node_out",
+      "condition": "Default"
+    },
+    {
+      "id": "c5",
+      "from_id": "node_out",
+      "to_id": "node_step",
+      "condition": "Default"
+    },
+    {
+      "id": "c6",
+      "from_id": "node_step",
+      "to_id": "node_cond",
+      "condition": "Default"
+    },
+    {
+      "id": "c7",
+      "from_id": "node_cond",
+      "to_id": "node_stop",
+      "condition": "No"
+    }
+  ],
+  "next_node_id": 0,
+  "next_line_id": 0
+}

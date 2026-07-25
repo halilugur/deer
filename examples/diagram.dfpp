@@ -1,0 +1,115 @@
+{
+  "title": "FPP Diagram",
+  "nodes": [
+    {
+      "id": "id1",
+      "node_type": "Start",
+      "x": 283.0,
+      "y": 83.0,
+      "width": 70.0,
+      "height": 30.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "START",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "id2",
+      "node_type": "Stop",
+      "x": 284.0,
+      "y": 359.0,
+      "width": 70.0,
+      "height": 30.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "STOP",
+      "expr1": "",
+      "expr2": "",
+      "target_var": ""
+    },
+    {
+      "id": "id3",
+      "node_type": "Definition",
+      "x": 235.0,
+      "y": 178.0,
+      "width": 164.0,
+      "height": 30.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "DEFINITION",
+      "expr1": "a",
+      "expr2": "\"Merhaba Dünya!\"",
+      "target_var": ""
+    },
+    {
+      "id": "id4",
+      "node_type": "Output",
+      "x": 273.0,
+      "y": 261.0,
+      "width": 90.0,
+      "height": 40.0,
+      "fill_color": [
+        255,
+        255,
+        255
+      ],
+      "border_color": [
+        40,
+        40,
+        40
+      ],
+      "label": "OUTPUT",
+      "expr1": "a",
+      "expr2": "",
+      "target_var": ""
+    }
+  ],
+  "connectors": [
+    {
+      "id": "line1",
+      "from_id": "id1",
+      "to_id": "id3",
+      "condition": "Default"
+    },
+    {
+      "id": "line2",
+      "from_id": "id3",
+      "to_id": "id4",
+      "condition": "Default"
+    },
+    {
+      "id": "line3",
+      "from_id": "id4",
+      "to_id": "id2",
+      "condition": "Default"
+    }
+  ],
+  "next_node_id": 5,
+  "next_line_id": 4
+}
