@@ -1,9 +1,15 @@
-# DEER — Diagram Execution Engine in Rust
+<p align="center">
+  <img src="assets/logo.svg" alt="DEER Logo" width="128" height="128">
+</p>
 
-![Rust](https://img.shields.io/badge/Language-Rust-orange.svg)
-![GUI](https://img.shields.io/badge/GUI-egui-blue.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Build & Release](https://github.com/halilugur/deer/actions/workflows/build.yml/badge.svg)
+<h1 align="center">DEER — Diagram Execution Engine in Rust</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Language-Rust-orange.svg" alt="Rust">
+  <img src="https://img.shields.io/badge/GUI-egui-blue.svg" alt="GUI">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+  <img src="https://github.com/halilugur/deer/actions/workflows/build.yml/badge.svg" alt="Build & Release">
+</p>
 
 ![DEER Application Screenshot](assets/application.png)
 
