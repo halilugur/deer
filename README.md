@@ -94,4 +94,4 @@ Projede yer alan örnek diyagramlar:
 
 ## Lisans
 
-Bu proje MIT Lisansı altında sunulmaktadır.
+Apache-2.0 © Halil Uğur
