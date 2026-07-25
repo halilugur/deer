@@ -3,6 +3,7 @@
 ![Rust](https://img.shields.io/badge/Language-Rust-orange.svg)
 ![GUI](https://img.shields.io/badge/GUI-egui-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Build & Release](https://github.com/halilugur/deer/actions/workflows/build.yml/badge.svg)
 
 ![DEER Application Screenshot](assets/application.png)
 
