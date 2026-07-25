@@ -66,15 +66,7 @@ jobs:
             libwayland-dev \
             pkg-config
 
-      - name: Install macOS GUI Dependencies
-        if: runner.os == 'macOS'
-        run: |
-          brew install gtk+3 pkg-config || true
-
       - name: Run Cargo Tests
-        # Only run tests when the target matches the host architecture,
-        # otherwise cargo would try to execute foreign-arch binaries.
-        if: matrix.target != 'aarch64-apple-darwin' || runner.os == 'macOS'
         run: cargo test --release --target ${{ matrix.target }}
 
       - name: Build Release Binary
