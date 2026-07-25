@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
+    name: Build on ${{ matrix.os }} (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -27,7 +27,7 @@ jobs:
             target: aarch64-apple-darwin
             artifact_name: deer-macos-arm64
             asset_name: deer-macos-arm64.zip
-          - os: macos-13
+          - os: macos-latest
             target: x86_64-apple-darwin
             artifact_name: deer-macos-x86_64
             asset_name: deer-macos-x86_64.zip
