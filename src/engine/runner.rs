@@ -1,12 +1,10 @@
-use super::evaluator::{Evaluator, Value};
+use super::evaluator::{Evaluator, Value, MAX_LOGS, MAX_HISTORY_POINTS};
 use crate::model::connector::BranchCondition;
 use crate::model::diagram::Diagram;
 use crate::model::node::{Node, NodeType};
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 use std::fs;
 use std::path::PathBuf;
-
-const MAX_LOGS: usize = 1000;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum ExecutionState {
@@ -39,9 +37,9 @@ pub struct Runner {
     pub node_map: HashMap<String, Node>,
     pub diagram_stack: Vec<StackFrame>,
     pub variables: HashMap<String, Value>,
-    pub logs: Vec<String>,
-    pub output_history: Vec<(usize, f64)>,
-    pub variable_history: HashMap<String, Vec<(usize, f64)>>,
+    pub logs: VecDeque<String>,
+    pub output_history: VecDeque<(usize, f64)>,
+    pub variable_history: HashMap<String, VecDeque<(usize, f64)>>,
     pub delay_ms: u64,
     pub step_count: usize,
     pub step_mode: bool,
@@ -63,8 +61,8 @@ impl Runner {
             node_map: HashMap::new(),
             diagram_stack: Vec::new(),
             variables: HashMap::new(),
-            logs: Vec::new(),
-            output_history: Vec::new(),
+            logs: VecDeque::with_capacity(MAX_LOGS),
+            output_history: VecDeque::with_capacity(MAX_HISTORY_POINTS),
             variable_history: HashMap::new(),
             delay_ms: 10, // Fast default execution speed (10ms)
             step_count: 0,
@@ -75,9 +73,9 @@ impl Runner {
 
     pub fn push_log(&mut self, msg: String) {
         if self.logs.len() >= MAX_LOGS {
-            self.logs.remove(0);
+            self.logs.pop_front();
         }
-        self.logs.push(msg);
+        self.logs.push_back(msg);
     }
 
     pub fn reset(&mut self) {
@@ -340,10 +338,21 @@ impl Runner {
                 };
 
                 if let Value::Number(num) = val_to_check {
-                    self.output_history.push((self.step_count, num));
+                    if num.is_finite() {
+                        self.output_history.push_back((self.step_count, num));
+                        // Trim history to prevent memory bloat
+                        while self.output_history.len() > MAX_HISTORY_POINTS {
+                            self.output_history.pop_front();
+                        }
+                    }
                 } else if let Value::String(ref s) = val_to_check {
                     if let Ok(num) = s.trim().parse::<f64>() {
-                        self.output_history.push((self.step_count, num));
+                        if num.is_finite() {
+                            self.output_history.push_back((self.step_count, num));
+                            while self.output_history.len() > MAX_HISTORY_POINTS {
+                                self.output_history.pop_front();
+                            }
+                        }
                     }
                 }
 
@@ -356,6 +365,13 @@ impl Runner {
             NodeType::Add | NodeType::Subtract | NodeType::Multiply | NodeType::Divide => {
                 let (_target, _val, log) = super::node_exec::execute_arithmetic(&node, &mut self.variables);
                 self.push_log(log);
+                
+                // Validate result to prevent NaN/Infinity propagation
+                if let Some(target_val) = self.variables.get(&_target) {
+                    if !target_val.is_valid_number() {
+                        self.push_log("[UYARI] Geçersiz sayısal sonuç (NaN/Infinity)".to_string());
+                    }
+                }
             }
             NodeType::IfEqual
             | NodeType::IfGreater
@@ -473,13 +489,19 @@ impl Runner {
             next_node_id = Some(conn.to_id.clone());
         }
 
-        // Record numeric variable states into history for charting
+        // Record numeric variable states into history for charting (with bounds checking)
         for (var_name, val) in &self.variables {
             if let Value::Number(num) = val {
-                self.variable_history
-                    .entry(var_name.clone())
-                    .or_default()
-                    .push((self.step_count, *num));
+                if num.is_finite() {
+                    let history = self.variable_history.entry(var_name.clone()).or_insert_with(|| {
+                        VecDeque::with_capacity(MAX_HISTORY_POINTS)
+                    });
+                    history.push_back((self.step_count, *num));
+                    // Trim history to prevent memory bloat
+                    while history.len() > MAX_HISTORY_POINTS {
+                        history.pop_front();
+                    }
+                }
             }
         }
 

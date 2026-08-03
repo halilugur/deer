@@ -1,6 +1,11 @@
 use std::collections::HashMap;
 use std::fmt;
 
+/// Maximum number of history points to retain per variable for charting
+pub const MAX_HISTORY_POINTS: usize = 500;
+/// Maximum number of logs to retain
+pub const MAX_LOGS: usize = 1000;
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum Value {
     Number(f64),
@@ -31,6 +36,14 @@ impl Value {
             Value::String(s) => s.trim().parse().unwrap_or(0.0),
             Value::Bool(b) => if *b { 1.0 } else { 0.0 },
             Value::Nil => 0.0,
+        }
+    }
+
+    /// Check if value is a valid number (not NaN or Infinity)
+    pub fn is_valid_number(&self) -> bool {
+        match self {
+            Value::Number(n) => n.is_finite(),
+            _ => false,
         }
     }
 }
@@ -102,11 +115,13 @@ impl Evaluator {
             let parts: Vec<&str> = trimmed.splitn(2, '/').collect();
             let left = Self::parse_value(parts[0], vars).to_number();
             let right = Self::parse_value(parts[1], vars).to_number();
-            if right != 0.0 {
-                return Value::Number(left / right);
-            } else {
-                return Value::Number(0.0);
+            if right != 0.0 && right.is_finite() && left.is_finite() {
+                let result = left / right;
+                if result.is_finite() {
+                    return Value::Number(result);
+                }
             }
+            return Value::Number(0.0);
         }
 
         // Function call parsing: fn_name(arg) e.g. cos(x), sin(y), sqrt(x)
@@ -180,24 +195,67 @@ impl Evaluator {
             "cos" => Value::Number(arg.to_number().cos()),
             "sin" => Value::Number(arg.to_number().sin()),
             "tan" => Value::Number(arg.to_number().tan()),
-            "asin" => Value::Number(arg.to_number().asin()),
-            "acos" => Value::Number(arg.to_number().acos()),
+            "asin" => {
+                let n = arg.to_number();
+                if n >= -1.0 && n <= 1.0 {
+                    Value::Number(n.asin())
+                } else {
+                    Value::Number(0.0) // Domain error handling
+                }
+            },
+            "acos" => {
+                let n = arg.to_number();
+                if n >= -1.0 && n <= 1.0 {
+                    Value::Number(n.acos())
+                } else {
+                    Value::Number(0.0) // Domain error handling
+                }
+            },
             "atan" => Value::Number(arg.to_number().atan()),
-            "exp" => Value::Number(arg.to_number().exp()),
-            "log" | "ln" => Value::Number(arg.to_number().ln()),
+            "exp" => {
+                let n = arg.to_number();
+                if n < 700.0 { // Prevent overflow
+                    Value::Number(n.exp())
+                } else {
+                    Value::Number(f64::INFINITY)
+                }
+            },
+            "log" | "ln" => {
+                let n = arg.to_number();
+                if n > 0.0 {
+                    Value::Number(n.ln())
+                } else {
+                    Value::Number(0.0) // Domain error handling
+                }
+            },
             "fix" | "int" => Value::Number(arg.to_number().floor()),
             "abs" => Value::Number(arg.to_number().abs()),
-            "sqrt" => Value::Number(arg.to_number().sqrt()),
+            "sqrt" => {
+                let n = arg.to_number();
+                if n >= 0.0 {
+                    Value::Number(n.sqrt())
+                } else {
+                    Value::Number(0.0) // Domain error handling for negative sqrt
+                }
+            },
             "len" | "length" => Value::Number(arg.to_string_val().len() as f64),
             "clear" => Value::Number(0.0),
             "f" | "fact" | "factorial" => {
                 let n = arg.to_number().floor() as i64;
+                if n < 0 {
+                    return Value::Number(0.0); // Handle negative factorial
+                }
                 if n <= 1 {
                     Value::Number(1.0)
+                } else if n > 170 { // Prevent overflow (171! exceeds f64 max)
+                    Value::Number(f64::INFINITY)
                 } else {
                     let mut fact = 1.0;
                     for i in 2..=n {
                         fact *= i as f64;
+                        if !fact.is_finite() {
+                            return Value::Number(f64::INFINITY);
+                        }
                     }
                     Value::Number(fact)
                 }

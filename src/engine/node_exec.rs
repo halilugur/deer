@@ -22,11 +22,18 @@ pub fn execute_arithmetic(
         NodeType::Multiply => ("ÇARP", p1 * p2),
         NodeType::Divide => (
             "BÖL",
-            if p2 != 0.0 { p1 / p2 } else { 0.0 },
+            if p2 != 0.0 && p2.is_finite() && p1.is_finite() {
+                let result = p1 / p2;
+                if result.is_finite() { result } else { 0.0 }
+            } else {
+                0.0
+            },
         ),
         _ => ("İŞLEM", 0.0),
     };
 
+    // Validate result to prevent NaN/Infinity
+    let res_num = if res_num.is_finite() { res_num } else { 0.0 };
     let res = Value::Number(res_num);
     if !target.is_empty() {
         vars.insert(target.clone(), res.clone());
